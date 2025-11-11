@@ -1,0 +1,30 @@
+{{- /* Gallery Partial - Auto-detects categories from folders */ -}}
+{{- /* Dynamically loads images from static/images/gallery/ organized by folder */ -}}
+
+{{- $galleryPath := "static/images/gallery" -}}
+{{- $categories := readDir $galleryPath -}}
+
+{{- range $categories -}}
+    {{- if .IsDir -}}
+        {{- $categorySlug := .Name -}}
+        {{- $categoryPath := printf "images/gallery/%s" $categorySlug -}}
+        {{- $images := readDir (path.Join "static" $categoryPath) -}}
+
+        {{- range $images -}}
+            {{- if not .IsDir -}}
+                {{- $ext := path.Ext .Name -}}
+                {{- if or (eq $ext ".jpg") (eq $ext ".jpeg") (eq $ext ".png") (eq $ext ".webp") (eq $ext ".JPG") (eq $ext ".JPEG") (eq $ext ".PNG") -}}
+                    {{- $imagePath := printf "/%s/%s" $categoryPath .Name -}}
+
+                    <div class="gallery-item" data-category="{{ $categorySlug }}">
+                        <img
+                            src="{{ $imagePath }}"
+                            alt="{{ $categorySlug }} - {{ .Name }}"
+                            loading="lazy"
+                            decoding="async">
+                    </div>
+                {{- end -}}
+            {{- end -}}
+        {{- end -}}
+    {{- end -}}
+{{- end -}}

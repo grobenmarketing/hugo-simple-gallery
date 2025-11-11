@@ -1,0 +1,34 @@
+{{ define "main" }}
+
+<!-- Gallery Section -->
+<section class="gallery" id="gallery">
+    <div class="container">
+        <h1>{{ .Params.title }}</h1>
+        <p class="subtitle">{{ .Params.subtitle }}</p>
+
+        <!-- Filter Buttons -->
+        <div class="filter-buttons" id="filterBtnContainer">
+            <button class="filter-btn active" data-filter="all">All</button>
+            {{- $galleryPath := "static/images/gallery" -}}
+            {{- $categories := readDir $galleryPath -}}
+            {{- range $categories -}}
+                {{- if .IsDir -}}
+                    {{- $categoryName := .Name | title -}}
+                    <button class="filter-btn" data-filter="{{ .Name }}">{{ $categoryName }}</button>
+                {{- end -}}
+            {{- end }}
+        </div>
+
+        <!-- Gallery Grid -->
+        <div class="gallery-grid">
+            {{ partial "gallery.html" . }}
+        </div>
+
+        <!-- View More Button -->
+        <div class="view-more-container" id="viewMoreContainer">
+            <button class="btn btn-primary view-more-btn" id="viewMoreBtn">View More</button>
+        </div>
+    </div>
+</section>
+
+{{ end }}
