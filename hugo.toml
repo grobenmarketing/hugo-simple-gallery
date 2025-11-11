@@ -1,0 +1,11 @@
+baseURL = "/"
+languageCode = "en-us"
+title = "Simple Gallery"
+
+[params]
+  description = "A simple Hugo gallery site"
+
+[markup]
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+      unsafe = true
